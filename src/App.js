@@ -4,7 +4,7 @@ import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import { Row, Col } from 'antd';
 
-function App() {
+function App() { 
   return (
     <div className="App">
       <div className="app-title">TO DO</div>

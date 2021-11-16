@@ -4,11 +4,11 @@ import { DeleteFilled } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons';
 
-const TodoItem = () => {
+const TodoItem = () => { 
     return (
         <div className="todo-item">
             <Row align="middle">
-                <Col xs={20} md={20} lg={20} xl={20}>
+                <Col xs={20} sm={20} md={20} lg={18} xl={18} xxl={20}>
                     <Row>
                         <Col><h3 className="item-title">ITEM 1</h3></Col>
                     </Row>
@@ -16,7 +16,7 @@ const TodoItem = () => {
                         <Col><span className="item-desc">This is task1 Description</span></Col>
                     </Row>
                 </Col>
-                <Col xs={4} md={4} lg={4} xl={4}>
+                <Col xs={4} sm={4} md={4} lg={6} xl={6} xxl={4}>
                     {/* <div style={{display: 'flex', justifyContent: 'right'}}> */}
                     <Row  gutter={[8, 8]} justify="end">
                         <Col><Button className="icon-red"><FontAwesomeIcon icon={faCheckDouble} /></Button></Col>
