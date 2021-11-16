@@ -1,9 +1,14 @@
 import React from 'react';
+import TodoItem from "./TodoItem";
 
-const AddTodo = () => {
+const TodoList = () => {
     return (
-        <div className="add-todo-container">Add Todo Component</div>
+        <>
+        {/* <div>Todo List Component</div> */}
+        <TodoItem/>
+        <TodoItem/>
+        </>
     );
 }
 
-export default AddTodo;
+export default TodoList;
