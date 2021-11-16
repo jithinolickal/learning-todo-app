@@ -4,7 +4,7 @@ import { DeleteFilled } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckDouble } from '@fortawesome/free-solid-svg-icons';
 
-const TodoItem = () => {
+const TodoItem = () => { 
     return (
         <div className="todo-item">
             <Row align="middle">

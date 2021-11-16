@@ -5,11 +5,6 @@ import TextArea from 'rc-textarea';
 
 const AddTodo = () => {
 
-    const formLayout = {
-        labelCol: { span: { sm: 24 }},
-        wrapperCol: { span: { sm: 24 }}
-     }
-
     return (
         <>
             <Row className="add-todo-container">
