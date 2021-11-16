@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ Fragment } from 'react';
 import {Col, Form, Input, Row} from "antd";
 import Button from "antd/es/button";
 import TextArea from 'rc-textarea';
@@ -6,7 +6,7 @@ import TextArea from 'rc-textarea';
 const AddTodo = () => { 
 
     return (
-        <>
+        <Fragment>
             <Row className="add-todo-container">
                 <Col span={24}>
                     <Form 
@@ -49,7 +49,7 @@ const AddTodo = () => {
                     </Form>
                 </Col>
             </Row>
-        </>
+        </Fragment>
     );
 }
 
