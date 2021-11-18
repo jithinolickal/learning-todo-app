@@ -5,19 +5,16 @@ import TodoList from "./components/TodoList";
 import { Row, Col } from "antd";
 
 function App() {
-  const [todoList, setTodoList] = useState([
-    {
-      taskName: "aaa",
-      taskDesc: "aaa",
-    },
-    {
-      taskName: "bbb",
-      taskDesc: "bbb",
-    },
-  ]);
+  const [todoList, setTodoList] = useState([]);
 
   const handleTodo = (value) => {
-    setTodoList([...todoList, value]);
+    let tempTodo = { ...value };
+    tempTodo.id = todoList.length + 1;
+    let newTodo = tempTodo;
+    setTodoList([...todoList, newTodo]);
+  };
+  const handleDelete = (id) => {
+    setTodoList(todoList.filter((todo) => todo.id != id));
   };
 
   return (
@@ -26,7 +23,7 @@ function App() {
       <Row align="middle" className="page-center">
         <Col span={12} offset={6}>
           <AddTodo handleTodo={handleTodo} />
-          <TodoList todoList={todoList} />
+          <TodoList todoList={todoList} handleDelete={handleDelete} />
         </Col>
       </Row>
     </div>
