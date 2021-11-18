@@ -5,6 +5,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 
 const TodoItem = (props) => {
+  const handleDelete = () => {
+    props.handleDelete(props.todo.id);
+  };
+
   return (
     <div className="todo-item">
       <Row align="middle">
@@ -29,7 +33,7 @@ const TodoItem = (props) => {
             </Col>
             <Col>
               <Button className="icon-red">
-                <DeleteFilled />
+                <DeleteFilled onClick={handleDelete} />
               </Button>
             </Col>
           </Row>

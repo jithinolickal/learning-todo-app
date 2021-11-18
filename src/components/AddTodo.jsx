@@ -16,6 +16,7 @@ const AddTodo = (props) => {
       <Row className="add-todo-container">
         <Col span={24}>
           <Form
+            name="form"
             layout="vertical"
             className="add-todo-form"
             onFinish={handleAdd}
