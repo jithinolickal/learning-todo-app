@@ -11,15 +11,22 @@ function App() {
   const [selectedValue, setSelectedValue] = useState();
 
   const handleTodo = (value) => {
-    setTodoList([
-      ...todoList,
-      { ...value, id: Date.now(), isComplete: false },
-    ]);
+    setTodoList([...todoList, { ...value, id: Date.now(), isComplete: false }]);
   };
+
   const handleDelete = (id) => {
     setTodoList(todoList.filter((todo) => todo.id != id));
   };
-  const handleComplete = (todo1) => {
+
+  const handleComplete = (todoId) => {
+    let selectedindex = todoList.findIndex((todo) => todo.id == todoId);
+    let newTodoList = [...todoList];
+    newTodoList[selectedindex].isComplete = true;
+    setTodoList(newTodoList);
+  };
+  
+  // Old code for reference
+  const old_Complete = (todo1) => {
     let selectedindex = todoList.findIndex((todo) => todo.id == todo1.id);
     let newTodoList = [...todoList];
     newTodoList[selectedindex] = {
@@ -35,12 +42,11 @@ function App() {
       <div className="app-title">TO DO</div>
       <Row align="middle" className="page-center">
         <Col span={12} offset={6}>
-          <TodoContext.Provider value={[todoList, setTodoList]}>
+          <TodoContext.Provider
+            value={{ todoList, setTodoList, handleDelete, handleComplete }}
+          >
             <AddTodo handleTodo={handleTodo} />
-            <TodoList
-              handleDelete={handleDelete}
-              handleComplete={handleComplete}
-            />
+            <TodoList />
           </TodoContext.Provider>
         </Col>
       </Row>
