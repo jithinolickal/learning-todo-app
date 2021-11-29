@@ -63,7 +63,7 @@
 }
 .text-box.ant-input,
 .text-box.ant-input:focus,
-.text-box.ant-input:hover {
+.text-box.ant-input:hover{
   background-color: #49478b;
   border: 1px solid #a0a0b2;
   color: #a0a0b2;

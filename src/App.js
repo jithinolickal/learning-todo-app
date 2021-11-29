@@ -4,20 +4,26 @@ import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
 import { Row, Col } from "antd";
 
-export const TodoContext = createContext();
+export const TodoContext = createContext([]);
 
 function App() {
-  const [todoList, setTodoList] = useState([]);
-  const [selectedValue, setSelectedValue] = useState();
+  const [todoList, setTodoList] = useState(
+    JSON.parse(localStorage.getItem("todoList")) || []
+  );
 
   const handleTodo = (value) => {
-    setTodoList([
+    let newTodoList = [
       ...todoList,
       { ...value, id: Date.now(), isComplete: false },
-    ]);
+    ];
+    setTodoList(newTodoList);
+    localStorage.setItem("todoList", JSON.stringify(newTodoList));
+    console.log(value);
   };
   const handleDelete = (id) => {
-    setTodoList(todoList.filter((todo) => todo.id != id));
+    let newTodoList = todoList.filter((todo) => todo.id != id);
+    setTodoList(newTodoList);
+    localStorage.setItem("todoList", JSON.stringify(newTodoList));
   };
   const handleComplete = (id) => {
     let selectedindex = todoList.findIndex((todo) => todo.id == id);
@@ -27,11 +33,12 @@ function App() {
       isComplete: !newTodoList[selectedindex].isComplete,
     };
     setTodoList(newTodoList);
+    localStorage.setItem("todoList", JSON.stringify(newTodoList));
   };
 
   return (
     <div className="App">
-      {/* <p style={{ color: "white" }}>{JSON.stringify(todoList)}</p> */}
+      <p style={{ color: "white" }}>{JSON.stringify(todoList)}</p>
       <div className="app-title">TO DO</div>
       <Row align="middle" className="page-center">
         <Col span={12} offset={6}>
