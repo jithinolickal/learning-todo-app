@@ -1,13 +1,15 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useContext, useState } from "react";
 import { Col, Form, Input, Row } from "antd";
 import Button from "antd/es/button";
 import TextArea from "rc-textarea";
+import { TodoContext } from "App";
 
 const AddTodo = (props) => {
   const [form] = Form.useForm();
+  const [todoList, handleTodo, handleDelete, handleComplete, deletedTodo] = useContext(TodoContext);
 
   const handleAdd = (values) => {
-    props.handleTodo(values);
+    handleTodo(values);
     form.resetFields();
   };
 

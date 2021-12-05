@@ -6,12 +6,12 @@ import { TodoContext } from "App";
 import React, { useContext, useEffect, useState } from "react";
 
 const TodoList = (props) => {
-  const [todoListLocal, handleDelete, handleComplete] = useContext(TodoContext);
+  const [todoList, handleTodo, handleDelete, handleComplete, deletedTodo] = useContext(TodoContext);
 
   return (
     <>
       {/* <>{JSON.stringify(todoListLocal)}</> */}
-      {todoListLocal?.map((todo) => (
+      {todoList?.map((todo) => (
         <div className="todo-item" key={todo.id}>
           <Row align="middle">
             <Col xs={20} sm={20} md={20} lg={18} xl={18} xxl={20}>

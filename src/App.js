@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,7 +20,8 @@ function App() {
   const [todoList, setTodoList] = useState(
     JSON.parse(localStorage.getItem("todoList")) || []
   );
-  const [current, setCurrent ] = useState("");
+  const [deletedTodoList, setDeletedTodoList] = useState([]);
+  const [current, setCurrent] = useState("");
   let history = useHistory();
 
   const handleTodo = (value) => {
@@ -33,6 +34,10 @@ function App() {
     console.log(value);
   };
   const handleDelete = (id) => {
+    let deletedTodo = todoList.filter((todo) => todo.id == id);
+    console.log(deletedTodoList);
+    
+    setDeletedTodoList([...deletedTodoList, deletedTodo[0]]);
     let newTodoList = todoList.filter((todo) => todo.id != id);
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
@@ -47,41 +52,55 @@ function App() {
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
   };
-  const handleClick = e => {
-    console.log('click ', e);
-    setCurrent(e.key);
-    history.push("/"+e.key);
+  const handleRestore = (item) => {
+    let newTodoList = deletedTodoList.filter((todo) => todo.id != item.id);
+    setDeletedTodoList(newTodoList);
+    setTodoList([...todoList, item]);
+    localStorage.setItem("todoList", JSON.stringify([...todoList, item]));
+  }
+  const handlePermanentDelete = (item) => {
+    let newTodoList = deletedTodoList.filter((todo) => todo.id != item.id);
+    setDeletedTodoList(newTodoList);
   };
+  const handleClick = (e) => {
+    setCurrent(e.key);
+  };
+  const handleNav = (path) => {
+    history.push(path);
+  };
+  useEffect(() => {
+    setCurrent("home");
+  }, []);
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <p style={{ color: "white" }}>{JSON.stringify(todoList)}</p>
-        <div className="app-title">TO DO</div>
-        <Row align="middle" className="page-center">
-          <Col span={12} offset={6}>
-           {/*  <TodoContext.Provider
-              value={[todoList, handleDelete, handleComplete]}
-            >
-              <AddTodo handleTodo={handleTodo} />
-              <TodoList /> */}
-<Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
-        <Menu.Item key="home">
-         Home
-        </Menu.Item>
-        <Menu.Item key="trash">
-          Trash
-        </Menu.Item>
-        </Menu>
-              <Switch>
-                <Route path="/home" component={Home}/>
-                <Route path="/trash" component={Trash} exact/>
-              </Switch>
-            {/* </TodoContext.Provider> */}
-          </Col>
-        </Row>
-      </div>
-    </BrowserRouter>
+    <div className="App">
+      {/* <p style={{ color: "white" }}>{JSON.stringify(todoList)}</p> */}
+      <div className="app-title">TO DO</div>
+      <Row className="page-center">
+        <Col span={12} offset={6}>
+          <Menu
+            onClick={handleClick}
+            selectedKeys={[current]}
+            mode="horizontal"
+          >
+            <Menu.Item key="home" onClick={() => handleNav("/")}>
+              Home
+            </Menu.Item>
+            <Menu.Item key="trash" onClick={() => handleNav("/trash")}>
+              Trash
+            </Menu.Item>
+          </Menu>
+          <TodoContext.Provider
+            value={[todoList, handleTodo, handleDelete, handleComplete, deletedTodoList, handleRestore, handlePermanentDelete]}
+          >
+            <Switch>
+              <Route path="/" component={Home} exact />
+              <Route path="/trash" component={Trash} exact />
+            </Switch>
+          </TodoContext.Provider>
+        </Col>
+      </Row>
+    </div>
   );
 }
 
