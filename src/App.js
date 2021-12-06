@@ -13,34 +13,37 @@ import TodoList from "./components/TodoList";
 import { Row, Col, Menu } from "antd";
 import Trash from "components/Trash";
 import Home from "components/Home";
+import TodoHistory from "components/History";
 
 export const TodoContext = createContext([]);
 
 function App() {
-  const [todoList, setTodoList] = useState(
-    JSON.parse(localStorage.getItem("todoList")) || []
-  );
+  const [todoList, setTodoList] = useState(JSON.parse(localStorage.getItem("todoList")) || []);
   const [deletedTodoList, setDeletedTodoList] = useState([]);
   const [current, setCurrent] = useState("");
+  const [log, setLog] = useState([]);
+  const [message, setMessage] = useState("");
+
   let history = useHistory();
 
   const handleTodo = (value) => {
-    let newTodoList = [
-      ...todoList,
-      { ...value, id: Date.now(), isComplete: false },
-    ];
+    let id = Date.now();
+    let newTodoList = [...todoList, { ...value, id: id, isComplete: false }];
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
-    console.log(value);
+    console.log(value + " " + id);
+    setLog([...log, `Added new item on ${new Date().toLocaleString()}`]);
   };
   const handleDelete = (id) => {
     let deletedTodo = todoList.filter((todo) => todo.id == id);
-    console.log(deletedTodoList);
-    
     setDeletedTodoList([...deletedTodoList, deletedTodo[0]]);
     let newTodoList = todoList.filter((todo) => todo.id != id);
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
+    setLog([
+      ...log,
+      `Deleted item with id ${id} on ${new Date().toLocaleString()}`,
+    ]);
   };
   const handleComplete = (id) => {
     let selectedindex = todoList.findIndex((todo) => todo.id == id);
@@ -51,13 +54,21 @@ function App() {
     };
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
+    setLog([
+      ...log,
+      `Marked item with id ${id} as completed on ${new Date().toLocaleString()}`,
+    ]);
   };
   const handleRestore = (item) => {
     let newTodoList = deletedTodoList.filter((todo) => todo.id != item.id);
     setDeletedTodoList(newTodoList);
     setTodoList([...todoList, item]);
     localStorage.setItem("todoList", JSON.stringify([...todoList, item]));
-  }
+    setLog([
+      ...log,
+      `Restored item with id ${item.id} on ${new Date().toLocaleString()}`,
+    ]);
+  };
   const handlePermanentDelete = (item) => {
     let newTodoList = deletedTodoList.filter((todo) => todo.id != item.id);
     setDeletedTodoList(newTodoList);
@@ -89,13 +100,26 @@ function App() {
             <Menu.Item key="trash" onClick={() => handleNav("/trash")}>
               Trash
             </Menu.Item>
+            <Menu.Item key="history" onClick={() => handleNav("/history")}>
+              History
+            </Menu.Item>
           </Menu>
           <TodoContext.Provider
-            value={[todoList, handleTodo, handleDelete, handleComplete, deletedTodoList, handleRestore, handlePermanentDelete]}
+            value={[
+              todoList,
+              handleTodo,
+              handleDelete,
+              handleComplete,
+              deletedTodoList,
+              handleRestore,
+              handlePermanentDelete,
+              log,
+            ]}
           >
             <Switch>
               <Route path="/" component={Home} exact />
               <Route path="/trash" component={Trash} exact />
+              <Route path="/history" component={TodoHistory} exact />
             </Switch>
           </TodoContext.Provider>
         </Col>
