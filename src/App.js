@@ -6,6 +6,8 @@ import {
   Link,
   BrowserRouter,
   useHistory,
+  useLocation,
+  NavLink,
 } from "react-router-dom";
 import "./App.css";
 import AddTodo from "./components/AddTodo";
@@ -20,11 +22,12 @@ export const TodoContext = createContext([]);
 function App() {
   const [todoList, setTodoList] = useState(JSON.parse(localStorage.getItem("todoList")) || []);
   const [deletedTodoList, setDeletedTodoList] = useState([]);
-  const [current, setCurrent] = useState("");
+  const [current, setCurrent] = useState("home");
   const [log, setLog] = useState([]);
   const [message, setMessage] = useState("");
 
   let history = useHistory();
+  let location = useLocation();
 
   const handleTodo = (value) => {
     let id = Date.now();
@@ -79,9 +82,10 @@ function App() {
   const handleNav = (path) => {
     history.push(path);
   };
-  useEffect(() => {
-    setCurrent("home");
-  }, []);
+  const backtoHome = ()=>{
+    history.push("/");  
+    setCurrent("home"); 
+  }
 
   return (
     <div className="App">
@@ -94,14 +98,20 @@ function App() {
             selectedKeys={[current]}
             mode="horizontal"
           >
-            <Menu.Item key="home" onClick={() => handleNav("/")}>
-              Home
+            <Menu.Item key="home">
+              <NavLink to="/" exact activeClassName="selectedPage">
+                Home
+              </NavLink>
             </Menu.Item>
-            <Menu.Item key="trash" onClick={() => handleNav("/trash")}>
-              Trash
+            <Menu.Item key="trash">
+              <NavLink to="/trash" exact activeClassName="selectedPage">
+                Trash
+              </NavLink>
             </Menu.Item>
-            <Menu.Item key="history" onClick={() => handleNav("/history")}>
-              History
+            <Menu.Item key="history">
+              <NavLink to="/history" exact activeClassName="selectedPage">
+                History
+              </NavLink>
             </Menu.Item>
           </Menu>
           <TodoContext.Provider
@@ -114,6 +124,7 @@ function App() {
               handleRestore,
               handlePermanentDelete,
               log,
+              backtoHome
             ]}
           >
             <Switch>

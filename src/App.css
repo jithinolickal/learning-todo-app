@@ -83,3 +83,7 @@
   text-decoration: line-through;
   color: #73709e;
 }
+.selectedPage{
+  color:blue;
+  font-weight: bold;
+}

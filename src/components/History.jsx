@@ -21,6 +21,7 @@ const TodoHistory = () => {
     handleRestore,
     handlePermanentDelete,
     log,
+    backtoHome
   ] = useContext(TodoContext);
   const history = useHistory();
   const [revLog, setRevLog] = useState([]);
@@ -41,7 +42,7 @@ const TodoHistory = () => {
           </Row>
         </div>
       ))}
-      <Button className="icon-red" onClick={() => history.push("/")}>
+      <Button className="icon-red" onClick={backtoHome}>
         <ArrowLeftOutlined /> Back to Home
       </Button>
       </Space>
