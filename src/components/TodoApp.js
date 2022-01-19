@@ -1,13 +1,13 @@
 import { Col, Menu, Row } from "antd";
 import { TodoContext } from "App";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { NavLink, Route, Switch } from "react-router-dom";
+import { NavLink, Redirect, Route, Switch } from "react-router-dom";
 import TodoHistory from "./History";
 import Home from "./Home";
 import Trash from "./Trash";
 
-const TodoApp = () => {
+const TodoApp = ({authorized}) => {
   const [todoList, setTodoList] = useState(
     JSON.parse(localStorage.getItem("todoList")) || []
   );
@@ -16,6 +16,10 @@ const TodoApp = () => {
   const [log, setLog] = useState([]);
 
   let history = useHistory();
+
+  useEffect(()=>{
+    console.log(authorized);
+  },[authorized])
 
   const handleTodo = (value) => {
     let id = Date.now();
@@ -66,6 +70,7 @@ const TodoApp = () => {
   };
   const handleClick = (e) => {
     setCurrent(e.key);
+    console.log("clicked");
   };
   const handleNav = (path) => {
     history.push(path);
@@ -75,10 +80,15 @@ const TodoApp = () => {
     setCurrent("home");
   };
 
+  if (!authorized) {
+    console.log(authorized);
+    return <Redirect to="/login" />;
+  }
+
   return (
     <>
       <div className="app-title">TO DO</div>
-      <Row className="page-center">
+      {/* <Row className="page-center">
         <Col span={12} offset={6}>
           <Menu
             onClick={handleClick}
@@ -115,13 +125,13 @@ const TodoApp = () => {
             ]}
           >
             <Switch>
-              <Route path="/" component={Home} exact />
-              <Route path="/trash" component={Trash} exact />
-              <Route path="/history" component={TodoHistory} exact />
+              <Route path="/a" component={Home} exact />
+              <Route path="/a/trash" component={Trash} exact />
+              <Route path="/a/history" component={TodoHistory} exact />
             </Switch>
           </TodoContext.Provider>
         </Col>
-      </Row>
+      </Row> */}
     </>
   );
 };

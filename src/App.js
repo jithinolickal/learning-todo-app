@@ -12,7 +12,7 @@ import {
 import "./App.css";
 import AddTodo from "./components/AddTodo";
 import TodoList from "./components/TodoList";
-import { Row, Col, Menu } from "antd";
+import { Row, Col, Menu, Button } from "antd";
 import Trash from "components/Trash";
 import Home from "components/Home";
 import TodoHistory from "components/History";
@@ -26,20 +26,21 @@ function App() {
 
   let history = useHistory();
 
+  const [login, setLogin] = useState(false);
   
 
   return (
     <div className="App">
-      {/* <p style={{ color: "white" }}>{JSON.stringify(todoList)}</p> */}
+      <p style={{ color: "white" }}>{JSON.stringify(login)}</p>
      {/* <TodoApp/> */}
      {/* <Login/> */}
+     <Button onClick={()=>setLogin(!login)}>{login ? "Logout" : "Login"}</Button>
      <Row style={{height: "100vh"}} align="middle">
        <Col span={12} offset={6}>
         <Switch>
-            <Route path="/" component={Login} exact />
-            <Route path="/home" component={Home} exact />
-            <Route path="/trash" component={Trash} exact />
-            <Route path="/history" component={TodoHistory} exact />
+            <Route path="/login" component={Login} exact />
+            <Route path="/" exact component={() => <TodoApp authorized={login} />}/>
+            
           </Switch>
       </Col>
       </Row>
