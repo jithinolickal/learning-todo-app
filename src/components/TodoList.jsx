@@ -2,15 +2,25 @@ import { DeleteFilled } from "@ant-design/icons";
 import { faCheckDouble } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button, Col, Row } from "antd";
-import { TodoContext } from "App";
+import { TodoContext } from "./TodoApp";
 import React, { useContext, useEffect, useState } from "react";
 
 const TodoList = (props) => {
-  const [todoList, handleTodo, handleDelete, handleComplete, deletedTodo] = useContext(TodoContext);
+  const [
+    todoList,
+    handleTodo,
+    handleDelete,
+    handleComplete,
+    deletedTodoList,
+    handleRestore,
+    handlePermanentDelete,
+    log,
+    backtoHome,
+  ] = useContext(TodoContext);
 
   return (
     <>
-      {/* <>{JSON.stringify(todoListLocal)}</> */}
+      {/* <>{JSON.stringify(todoList)}</> */}
       {todoList?.map((todo) => (
         <div className="todo-item" key={todo.id}>
           <Row align="middle">

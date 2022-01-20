@@ -1,32 +1,36 @@
 import { Col, Menu, Row } from "antd";
-import { TodoContext } from "App";
+//import { TodoContext } from "App";
 import React, { useEffect, useState } from "react";
+import { createContext } from "react";
 import { useHistory } from "react-router";
 import { NavLink, Redirect, Route, Switch } from "react-router-dom";
-import TodoHistory from "./History";
+import History from "./History";
 import Home from "./Home";
 import Trash from "./Trash";
 
-const TodoApp = ({authorized}) => {
+export const TodoContext = createContext([]);
+
+const TodoApp = ({ authorized }) => {
   const [todoList, setTodoList] = useState(
     JSON.parse(localStorage.getItem("todoList")) || []
   );
   const [deletedTodoList, setDeletedTodoList] = useState([]);
-  const [current, setCurrent] = useState("home");
+  const [current, setCurrent] = useState("A");
   const [log, setLog] = useState([]);
 
   let history = useHistory();
 
-  useEffect(()=>{
+  if (!authorized) {
     console.log(authorized);
-  },[authorized])
+    return <Redirect to="/login" />;
+  }
 
   const handleTodo = (value) => {
     let id = Date.now();
     let newTodoList = [...todoList, { ...value, id: id, isComplete: false }];
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
-    console.log(value + " " + id);
+    //console.log(value + " " + id);
     setLog([...log, `Added new item on ${new Date().toLocaleString()}`]);
   };
   const handleDelete = (id) => {
@@ -70,68 +74,62 @@ const TodoApp = ({authorized}) => {
   };
   const handleClick = (e) => {
     setCurrent(e.key);
-    console.log("clicked");
+    let selectedRoute = navigationList.filter((menu) => menu.key == e.key);
+    history.push(navigationList.filter((menu) => menu.key == e.key)[0].path);
+    console.log(e.key);
   };
   const handleNav = (path) => {
     history.push(path);
   };
   const backtoHome = () => {
     history.push("/");
-    setCurrent("home");
+    setCurrent("A");
   };
 
-  if (!authorized) {
-    console.log(authorized);
-    return <Redirect to="/login" />;
-  }
+  const navigationList = [
+    { key: "A", path: "/" },
+    { key: "B", path: "/trash" },
+    { key: "C", path: "/history" },
+  ];
 
   return (
     <>
       <div className="app-title">TO DO</div>
-      {/* <Row className="page-center">
-        <Col span={12} offset={6}>
-          <Menu
-            onClick={handleClick}
-            selectedKeys={[current]}
-            mode="horizontal"
-          >
-            <Menu.Item key="home">
-              <NavLink to="/" exact activeClassName="selectedPage">
-                Home
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="trash">
-              <NavLink to="/trash" exact activeClassName="selectedPage">
-                Trash
-              </NavLink>
-            </Menu.Item>
-            <Menu.Item key="history">
-              <NavLink to="/history" exact activeClassName="selectedPage">
-                History
-              </NavLink>
-            </Menu.Item>
-          </Menu>
-          <TodoContext.Provider
-            value={[
-              todoList,
-              handleTodo,
-              handleDelete,
-              handleComplete,
-              deletedTodoList,
-              handleRestore,
-              handlePermanentDelete,
-              log,
-              backtoHome,
-            ]}
-          >
-            <Switch>
-              <Route path="/a" component={Home} exact />
-              <Route path="/a/trash" component={Trash} exact />
-              <Route path="/a/history" component={TodoHistory} exact />
-            </Switch>
-          </TodoContext.Provider>
-        </Col>
-      </Row> */}
+      <p style={{ color: "white" }}>{log}</p>
+      {
+        <Row className="page-center">
+          <Col span={12} offset={6}>
+            <TodoContext.Provider
+              value={[
+                todoList,
+                handleTodo,
+                handleDelete,
+                handleComplete,
+                deletedTodoList,
+                handleRestore,
+                handlePermanentDelete,
+                log,
+                backtoHome
+              ]}
+            >
+              <Menu
+                onClick={handleClick}
+                selectedKeys={[current]}
+                mode="horizontal"
+              >
+                <Menu.Item key="A">Home</Menu.Item>
+                <Menu.Item key="B">Trash</Menu.Item>
+                <Menu.Item key="C">History</Menu.Item>
+              </Menu>
+              <Switch>
+                <Route path="/" component={Home} exact />
+                <Route path="/trash" component={Trash} exact />
+                <Route path="/history" component={History} exact />
+              </Switch>
+            </TodoContext.Provider>
+          </Col>
+        </Row>
+      }
     </>
   );
 };

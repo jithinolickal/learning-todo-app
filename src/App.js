@@ -19,27 +19,28 @@ import TodoHistory from "components/History";
 import TodoApp from "components/TodoApp";
 import Login from "components/Login";
 
-export const TodoContext = createContext([]);
-
 function App() {
   
 
   let history = useHistory();
 
-  const [login, setLogin] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
   
+  const handleAuth = (authorized) => {
+    setAuthorized(authorized);
+  }
 
   return (
     <div className="App">
-      <p style={{ color: "white" }}>{JSON.stringify(login)}</p>
+      <p style={{ color: "white" }}>{JSON.stringify(authorized)}</p>
      {/* <TodoApp/> */}
      {/* <Login/> */}
-     <Button onClick={()=>setLogin(!login)}>{login ? "Logout" : "Login"}</Button>
+     {/* <Button onClick={()=>setLogin(!login)}>{login ? "Logout" : "Login"}</Button> */}
      <Row style={{height: "100vh"}} align="middle">
        <Col span={12} offset={6}>
         <Switch>
-            <Route path="/login" component={Login} exact />
-            <Route path="/" exact component={() => <TodoApp authorized={login} />}/>
+            <Route path="/login" component={() => <Login handleAuth={handleAuth} />} exact />
+            <Route path="/" component={() => <TodoApp authorized={authorized} />}/>
             
           </Switch>
       </Col>

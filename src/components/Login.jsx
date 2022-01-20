@@ -1,12 +1,16 @@
 import { Button, Card, Col, Form, Input, Row } from "antd";
 import React, { Fragment } from "react";
+import { useHistory } from "react-router-dom";
 
-const Login = () => {
+const Login = ({handleAuth}) => {
   const [form] = Form.useForm();
+  const history = useHistory();
 
-  const handleAdd = (values) => {
-    //handleTodo(values);
-    form.resetFields();
+  const handleLogin = (values) => {
+    if(values.username == "Nymisha" && values.password == "123"){
+      handleAuth(true);
+      history.push("/");
+    }
   };
 
   return (
@@ -19,7 +23,7 @@ const Login = () => {
               form={form}
               layout="vertical"
               className="add-todo-form"
-              onFinish={handleAdd}
+              onFinish={handleLogin}
             >
               <Row align="top" gutter={[8, 16]}>
                 <Col span={24}>
