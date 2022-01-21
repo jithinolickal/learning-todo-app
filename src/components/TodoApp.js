@@ -16,7 +16,7 @@ const TodoApp = ({ authorized }) => {
   );
   const [deletedTodoList, setDeletedTodoList] = useState([]);
   const [current, setCurrent] = useState("A");
-  const [log, setLog] = useState([]);
+  const [historylog, setHistoryLog] = useState([]);
 
   let history = useHistory();
 
@@ -31,7 +31,10 @@ const TodoApp = ({ authorized }) => {
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
     //console.log(value + " " + id);
-    setLog([...log, `Added new item on ${new Date().toLocaleString()}`]);
+    setHistoryLog([
+      ...historylog,
+      `Added new item on ${new Date().toLocaleString()}`,
+    ]);
   };
   const handleDelete = (id) => {
     let deletedTodo = todoList.filter((todo) => todo.id == id);
@@ -39,8 +42,8 @@ const TodoApp = ({ authorized }) => {
     let newTodoList = todoList.filter((todo) => todo.id != id);
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
-    setLog([
-      ...log,
+    setHistoryLog([
+      ...historylog,
       `Deleted item with id ${id} on ${new Date().toLocaleString()}`,
     ]);
   };
@@ -53,8 +56,8 @@ const TodoApp = ({ authorized }) => {
     };
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
-    setLog([
-      ...log,
+    setHistoryLog([
+      ...historylog,
       `Marked item with id ${id} as completed on ${new Date().toLocaleString()}`,
     ]);
   };
@@ -63,8 +66,8 @@ const TodoApp = ({ authorized }) => {
     setDeletedTodoList(newTodoList);
     setTodoList([...todoList, item]);
     localStorage.setItem("todoList", JSON.stringify([...todoList, item]));
-    setLog([
-      ...log,
+    setHistoryLog([
+      ...historylog,
       `Restored item with id ${item.id} on ${new Date().toLocaleString()}`,
     ]);
   };
@@ -74,9 +77,7 @@ const TodoApp = ({ authorized }) => {
   };
   const handleClick = (e) => {
     setCurrent(e.key);
-    let selectedRoute = navigationList.filter((menu) => menu.key == e.key);
     history.push(navigationList.filter((menu) => menu.key == e.key)[0].path);
-    console.log(e.key);
   };
   const handleNav = (path) => {
     history.push(path);
@@ -95,7 +96,7 @@ const TodoApp = ({ authorized }) => {
   return (
     <>
       <div className="app-title">TO DO</div>
-      <p style={{ color: "white" }}>{log}</p>
+      {/* <p style={{ color: "white" }}>{historylog}</p> */}
       {
         <Row className="page-center">
           <Col span={12} offset={6}>
@@ -108,8 +109,8 @@ const TodoApp = ({ authorized }) => {
                 deletedTodoList,
                 handleRestore,
                 handlePermanentDelete,
-                log,
-                backtoHome
+                historylog,
+                backtoHome,
               ]}
             >
               <Menu
@@ -122,9 +123,15 @@ const TodoApp = ({ authorized }) => {
                 <Menu.Item key="C">History</Menu.Item>
               </Menu>
               <Switch>
-                <Route path="/" component={Home} exact />
-                <Route path="/trash" component={Trash} exact />
-                <Route path="/history" component={History} exact />
+                <Route path="/" exact>
+                  <Home />
+                </Route>
+                <Route path="/trash" exact>
+                  <Trash />
+                </Route>
+                <Route path="/history" exact>
+                  <History />
+                </Route>
               </Switch>
             </TodoContext.Provider>
           </Col>

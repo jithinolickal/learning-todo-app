@@ -13,7 +13,7 @@ const Home = () => {
     deletedTodoList,
     handleRestore,
     handlePermanentDelete,
-    log,
+    historylog,
     backtoHome,
   ] = useContext(TodoContext);
 

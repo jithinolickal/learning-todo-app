@@ -14,7 +14,7 @@ const AddTodo = (props) => {
     deletedTodoList,
     handleRestore,
     handlePermanentDelete,
-    log,
+    historylog,
     backtoHome,
   ] = useContext(TodoContext);
 

@@ -16,17 +16,17 @@ const Trash = () => {
     deletedTodoList,
     handleRestore,
     handlePermanentDelete,
-    log,
+    historylog,
     backtoHome,
   ] = useContext(TodoContext);
 
   useEffect(() => {
-    console.log(log);
+    console.log(historylog);
   }, []);
 
   return (
     <>
-      <div style={{ color: "white" }}>{JSON.stringify(todoList)}</div>
+      {/* <div style={{ color: "white" }}>{JSON.stringify(todoList)}</div> */}
       {deletedTodoList?.map((todo) => (
         <div className="todo-item" key={todo.id}>
           <Row align="middle">

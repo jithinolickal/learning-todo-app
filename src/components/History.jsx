@@ -20,19 +20,19 @@ const History = () => {
     deletedTodoList,
     handleRestore,
     handlePermanentDelete,
-    log,
-    backtoHome,
+    historylog,
+    backtoHome
   ] = useContext(TodoContext);
   const history = useHistory();
   const [revLog, setRevLog] = useState([]);
   useEffect(() => {
-    setRevLog(log.reverse());
-    console.log(log);
-  }, [log]);
+    setRevLog(historylog.reverse());
+    console.log(historylog);
+  }, [historylog]);
 
   return (
     <>
-      <div style={{ color: "white" }}>{JSON.stringify(log)}</div>
+      {/* <div style={{ color: "white" }}>{JSON.stringify(historylog)}</div> */}
       <Space direction="vertical" style={{ width: "100%", marginTop: "10px" }}>
         {revLog?.map((item, index) => (
           <div className="todo-item" key={index}>
