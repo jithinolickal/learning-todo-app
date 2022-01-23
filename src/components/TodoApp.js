@@ -19,12 +19,12 @@ const TodoApp = ({ authorized }) => {
   const [historylog, setHistoryLog] = useState([]);
 
   let history = useHistory();
-
+/* 
   if (!authorized) {
     console.log(authorized);
     return <Redirect to="/login" />;
   }
-
+ */
   const handleTodo = (value) => {
     let id = Date.now();
     let newTodoList = [...todoList, { ...value, id: id, isComplete: false }];
@@ -97,7 +97,6 @@ const TodoApp = ({ authorized }) => {
     <>
       <div className="app-title">TO DO</div>
       {/* <p style={{ color: "white" }}>{historylog}</p> */}
-      {
         <Row className="page-center">
           <Col span={12} offset={6}>
             <TodoContext.Provider
@@ -136,7 +135,6 @@ const TodoApp = ({ authorized }) => {
             </TodoContext.Provider>
           </Col>
         </Row>
-      }
     </>
   );
 };

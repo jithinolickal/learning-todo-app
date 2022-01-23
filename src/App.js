@@ -18,6 +18,7 @@ import Home from "components/Home";
 import TodoHistory from "components/History";
 import TodoApp from "components/TodoApp";
 import Login from "components/Login";
+import PrivateRoute from "components/PrivateRoute";
 
 function App() {
   let history = useHistory();
@@ -31,18 +32,16 @@ function App() {
   return (
     <div className="App">
       {/* <p style={{ color: "white" }}>{JSON.stringify(authorized)}</p> */}
-      {/* <TodoApp/> */}
-      {/* <Login/> */}
-      {/* <Button onClick={()=>setLogin(!login)}>{login ? "Logout" : "Login"}</Button> */}
       <Row style={{ height: "100vh" }} align="middle">
         <Col span={12} offset={6}>
           <Switch>
             <Route path="/login" exact>
               <Login handleAuth={handleAuth} />
             </Route>
-            <Route path="/">
+            {/* <Route path="/">
               <TodoApp authorized={authorized} />
-            </Route>
+            </Route> */}
+            <PrivateRoute path="/" component={TodoApp} authorized={authorized}/>
           </Switch>
         </Col>
       </Row>
