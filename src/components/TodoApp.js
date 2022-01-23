@@ -19,7 +19,7 @@ const TodoApp = ({ authorized }) => {
   const [historylog, setHistoryLog] = useState([]);
 
   let history = useHistory();
-/* 
+  /* 
   if (!authorized) {
     console.log(authorized);
     return <Redirect to="/login" />;
@@ -97,44 +97,44 @@ const TodoApp = ({ authorized }) => {
     <>
       <div className="app-title">TO DO</div>
       {/* <p style={{ color: "white" }}>{historylog}</p> */}
-        <Row className="page-center">
-          <Col span={12} offset={6}>
-            <TodoContext.Provider
-              value={[
-                todoList,
-                handleTodo,
-                handleDelete,
-                handleComplete,
-                deletedTodoList,
-                handleRestore,
-                handlePermanentDelete,
-                historylog,
-                backtoHome,
-              ]}
+      <Row className="page-center">
+        <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10, offset: 7 }}>
+          <TodoContext.Provider
+            value={[
+              todoList,
+              handleTodo,
+              handleDelete,
+              handleComplete,
+              deletedTodoList,
+              handleRestore,
+              handlePermanentDelete,
+              historylog,
+              backtoHome,
+            ]}
+          >
+            <Menu
+              onClick={handleClick}
+              selectedKeys={[current]}
+              mode="horizontal"
             >
-              <Menu
-                onClick={handleClick}
-                selectedKeys={[current]}
-                mode="horizontal"
-              >
-                <Menu.Item key="A">Home</Menu.Item>
-                <Menu.Item key="B">Trash</Menu.Item>
-                <Menu.Item key="C">History</Menu.Item>
-              </Menu>
-              <Switch>
-                <Route path="/" exact>
-                  <Home />
-                </Route>
-                <Route path="/trash" exact>
-                  <Trash />
-                </Route>
-                <Route path="/history" exact>
-                  <History />
-                </Route>
-              </Switch>
-            </TodoContext.Provider>
-          </Col>
-        </Row>
+              <Menu.Item key="A">Home</Menu.Item>
+              <Menu.Item key="B">Trash</Menu.Item>
+              <Menu.Item key="C">History</Menu.Item>
+            </Menu>
+            <Switch>
+              <Route path="/" exact>
+                <Home />
+              </Route>
+              <Route path="/trash" exact>
+                <Trash />
+              </Route>
+              <Route path="/history" exact>
+                <History />
+              </Route>
+            </Switch>
+          </TodoContext.Provider>
+        </Col>
+      </Row>
     </>
   );
 };

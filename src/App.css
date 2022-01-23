@@ -14,6 +14,7 @@
   height: 100%;
   position: absolute;
   text-align: center;
+  margin-top: 15px;
 }
 .add-todo-container {
   background-color: #49478b;

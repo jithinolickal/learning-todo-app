@@ -32,8 +32,13 @@ function App() {
   return (
     <div className="App">
       {/* <p style={{ color: "white" }}>{JSON.stringify(authorized)}</p> */}
-      <Row style={{ height: "100vh" }} align="middle">
-        <Col span={12} offset={6}>
+      <Row style={{ height: "100vh" }}>
+        <Col
+          xs={{ span: 24}}
+          sm={{ span: 24 }}
+          md={{ span: 24}}
+          
+        >
           <Switch>
             <Route path="/login" exact>
               <Login handleAuth={handleAuth} />
@@ -41,7 +46,11 @@ function App() {
             {/* <Route path="/">
               <TodoApp authorized={authorized} />
             </Route> */}
-            <PrivateRoute path="/" component={TodoApp} authorized={authorized}/>
+            <PrivateRoute
+              path="/"
+              component={TodoApp}
+              authorized={authorized}
+            />
           </Switch>
         </Col>
       </Row>
