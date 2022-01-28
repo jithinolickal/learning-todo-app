@@ -25,14 +25,17 @@ const History = () => {
   ] = useContext(TodoContext);
   const history = useHistory();
   const [revLog, setRevLog] = useState([]);
+
+   /**
+   *
+   * To Reverse the events in log, so that latest events are displayed at the top
+   */
   useEffect(() => {
     setRevLog(historylog.reverse());
-    console.log(historylog);
   }, [historylog]);
 
   return (
     <>
-      {/* <div style={{ color: "white" }}>{JSON.stringify(historylog)}</div> */}
       <Space direction="vertical" style={{ width: "100%", marginTop: "10px" }}>
         {revLog?.map((item, index) => (
           <div className="todo-item" key={index}>

@@ -19,19 +19,21 @@ import TodoHistory from "components/History";
 import TodoApp from "components/TodoApp";
 import Login from "components/Login";
 import PrivateRoute from "components/PrivateRoute";
+import Signup from "components/Signup";
 
 function App() {
-  let history = useHistory();
-
   const [authorized, setAuthorized] = useState(false);
 
+  /**
+   * 
+   * Passing on authorized prop received from Login Page to Home Page.
+   */
   const handleAuth = (authorized) => {
     setAuthorized(authorized);
   };
 
   return (
     <div className="App">
-      {/* <p style={{ color: "white" }}>{JSON.stringify(authorized)}</p> */}
       <Row style={{ height: "100vh" }}>
         <Col
           xs={{ span: 24}}
@@ -43,9 +45,9 @@ function App() {
             <Route path="/login" exact>
               <Login handleAuth={handleAuth} />
             </Route>
-            {/* <Route path="/">
-              <TodoApp authorized={authorized} />
-            </Route> */}
+            <Route path="/signup" exact>
+              <Signup />
+            </Route>
             <PrivateRoute
               path="/"
               component={TodoApp}

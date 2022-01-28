@@ -18,6 +18,11 @@ const AddTodo = (props) => {
     backtoHome,
   ] = useContext(TodoContext);
 
+  /**
+   *
+   * Method to receive new todoitem values from the form and passes them on to the parent TodoApp Component.
+   * Param received from Add todo form
+   */
   const handleAdd = (values) => {
     handleTodo(values);
     form.resetFields();

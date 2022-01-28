@@ -20,7 +20,6 @@ const TodoList = (props) => {
 
   return (
     <>
-      {/* <>{JSON.stringify(todoList)}</> */}
       {todoList?.map((todo) => (
         <div className="todo-item" key={todo.id}>
           <Row align="middle">

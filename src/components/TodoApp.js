@@ -10,7 +10,7 @@ import Trash from "./Trash";
 
 export const TodoContext = createContext([]);
 
-const TodoApp = ({ authorized }) => {
+const TodoApp = () => {
   const [todoList, setTodoList] = useState(
     JSON.parse(localStorage.getItem("todoList")) || []
   );
@@ -19,23 +19,28 @@ const TodoApp = ({ authorized }) => {
   const [historylog, setHistoryLog] = useState([]);
 
   let history = useHistory();
-  /* 
-  if (!authorized) {
-    console.log(authorized);
-    return <Redirect to="/login" />;
-  }
- */
+
+  /**
+   * 
+   * Method to add new todoitem to the existing todolist stored in localstorage and adding the event to log.
+   * Param received from AddTodo Component
+   */
   const handleTodo = (value) => {
     let id = Date.now();
     let newTodoList = [...todoList, { ...value, id: id, isComplete: false }];
     setTodoList(newTodoList);
     localStorage.setItem("todoList", JSON.stringify(newTodoList));
-    //console.log(value + " " + id);
     setHistoryLog([
       ...historylog,
       `Added new item on ${new Date().toLocaleString()}`,
     ]);
   };
+
+  /**
+   * 
+   * Method to delete a particular todoitem from the existing todolist and adding the event to log.
+   * Param received from TodoList Component
+   */
   const handleDelete = (id) => {
     let deletedTodo = todoList.filter((todo) => todo.id == id);
     setDeletedTodoList([...deletedTodoList, deletedTodo[0]]);
@@ -47,6 +52,12 @@ const TodoApp = ({ authorized }) => {
       `Deleted item with id ${id} on ${new Date().toLocaleString()}`,
     ]);
   };
+
+  /**
+   * 
+   * Method to mark a particular todoitem as complete from the existing todolist and adding the event to log.
+   * Param received from TodoList Component
+   */
   const handleComplete = (id) => {
     let selectedindex = todoList.findIndex((todo) => todo.id == id);
     let newTodoList = [...todoList];
@@ -61,6 +72,12 @@ const TodoApp = ({ authorized }) => {
       `Marked item with id ${id} as completed on ${new Date().toLocaleString()}`,
     ]);
   };
+
+  /**
+   * 
+   * Method to restore a deleted todoitem from the trash page and adding the event to log.
+   * Param received from Trash Component
+   */
   const handleRestore = (item) => {
     let newTodoList = deletedTodoList.filter((todo) => todo.id != item.id);
     setDeletedTodoList(newTodoList);
@@ -71,17 +88,30 @@ const TodoApp = ({ authorized }) => {
       `Restored item with id ${item.id} on ${new Date().toLocaleString()}`,
     ]);
   };
+
+  /**
+   * 
+   * Method to do permanent delete of a todoitem from the trash page.
+   * Param received from Trash Component
+   */
   const handlePermanentDelete = (item) => {
     let newTodoList = deletedTodoList.filter((todo) => todo.id != item.id);
     setDeletedTodoList(newTodoList);
   };
+
+  /**
+   * 
+   * Method to navigate to the selected page and display it as current page in the UI
+   */
   const handleClick = (e) => {
     setCurrent(e.key);
     history.push(navigationList.filter((menu) => menu.key == e.key)[0].path);
   };
-  const handleNav = (path) => {
-    history.push(path);
-  };
+
+  /**
+   * 
+   * Method to navigate to Home page from the History page.
+   */
   const backtoHome = () => {
     history.push("/");
     setCurrent("A");
@@ -96,7 +126,6 @@ const TodoApp = ({ authorized }) => {
   return (
     <>
       <div className="app-title">TO DO</div>
-      {/* <p style={{ color: "white" }}>{historylog}</p> */}
       <Row className="page-center">
         <Col xs={{ span: 24 }} sm={{ span: 24 }} md={{ span: 10, offset: 7 }}>
           <TodoContext.Provider

@@ -20,13 +20,8 @@ const Trash = () => {
     backtoHome,
   ] = useContext(TodoContext);
 
-  useEffect(() => {
-    console.log(historylog);
-  }, []);
-
   return (
     <>
-      {/* <div style={{ color: "white" }}>{JSON.stringify(todoList)}</div> */}
       {deletedTodoList?.map((todo) => (
         <div className="todo-item" key={todo.id}>
           <Row align="middle">
