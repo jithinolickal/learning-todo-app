@@ -88,3 +88,7 @@
   color:blue;
   font-weight: bold;
 }
+.logout-button.ant-menu-item-active::after{
+  border-bottom: none !important;
+  transition: none !important;
+}

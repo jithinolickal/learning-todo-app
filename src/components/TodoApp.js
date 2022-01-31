@@ -1,4 +1,4 @@
-import { Col, Menu, Row } from "antd";
+import { Button, Col, Menu, Row } from "antd";
 //import { TodoContext } from "App";
 import React, { useEffect, useState } from "react";
 import { createContext } from "react";
@@ -17,6 +17,7 @@ const TodoApp = () => {
   const [deletedTodoList, setDeletedTodoList] = useState([]);
   const [current, setCurrent] = useState("A");
   const [historylog, setHistoryLog] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn"));
 
   let history = useHistory();
 
@@ -104,8 +105,10 @@ const TodoApp = () => {
    * Method to navigate to the selected page and display it as current page in the UI
    */
   const handleClick = (e) => {
-    setCurrent(e.key);
-    history.push(navigationList.filter((menu) => menu.key == e.key)[0].path);
+    let selectedKey = e.key;
+    setCurrent(selectedKey)
+    history.push(navigationList.filter((menu) => menu.key == selectedKey)[0].path);
+    (selectedKey == "D") ? localStorage.setItem("isLoggedIn", "false") : localStorage.setItem("isLoggedIn", "true");
   };
 
   /**
@@ -121,6 +124,7 @@ const TodoApp = () => {
     { key: "A", path: "/" },
     { key: "B", path: "/trash" },
     { key: "C", path: "/history" },
+    { key: "D", path: "/login" }
   ];
 
   return (
@@ -149,6 +153,7 @@ const TodoApp = () => {
               <Menu.Item key="A">Home</Menu.Item>
               <Menu.Item key="B">Trash</Menu.Item>
               <Menu.Item key="C">History</Menu.Item>
+              <Menu.Item key="D" style={{"marginLeft": "auto"}} className="logout-button"><Button>Logout</Button></Menu.Item>
             </Menu>
             <Switch>
               <Route path="/" exact>

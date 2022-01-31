@@ -1,13 +1,14 @@
 import { Button, Card, Col, Form, Input, notification, Row } from "antd";
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 
 const Login = ({ handleAuth }) => {
   const [form] = Form.useForm();
   const history = useHistory();
   const [usersList, setUsersList] = useState(
-    JSON.parse(localStorage.getItem("usersList"))
+    JSON.parse(localStorage.getItem("usersList")) || []
   );
+  console.log(usersList);
 
    /**
    *
@@ -15,9 +16,10 @@ const Login = ({ handleAuth }) => {
    * It navigates to Home Page if login is succesful. Else it remains in the Login page and throws an error notification.
    */
   const handleLogin = (values) => {
-    let user = usersList.filter((user) => user.username == values.username && user.password == values.password);
-    if (user.length > 0) {
+    let user = usersList?.filter((user) => user.username == values.username && user.password == values.password);
+    if (user?.length > 0) {
       setTimeout(() => {
+        localStorage.setItem("isLoggedIn", "true")
         handleAuth(true);
         history.push("/");
       }, 1000);
@@ -30,6 +32,17 @@ const Login = ({ handleAuth }) => {
       message: "Login Failed",
     });
   };
+
+  /**
+   * To check whether the user is already logged in and redirect to home page if logged in.
+   * Else will redirect to login page
+   */
+  useEffect(()=>{
+    if(localStorage.getItem("isLoggedIn") == "true"){
+      handleAuth(true);
+      history.push("/");
+    }
+  },[])
 
    /**
    *
